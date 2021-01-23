@@ -5,7 +5,7 @@ const Usuario = require("../models/usuario");
 exports.home= async(req,res) => {
 
     // const usuarios = await Usuario.find();
-    
+
      const usuarios = await Usuario.findByIdAndUpdate(id,req.body,{ new:true});
      const usuarios = await Usuario.findById(id);
      const usuarios = await Usuario.findByIdAndDelete(id);
@@ -17,12 +17,7 @@ exports.home= async(req,res) => {
             mensaje:"no hay usuarios"
         })
     }
-    res.send({
-        status: 200,
-        mensaje:"exito",
-        usuarios,
-        total:usuarios.length
-    })
+
 };
 exports.enviarhome= async(req,res) => {
 
