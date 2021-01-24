@@ -1,15 +1,12 @@
 const Usuario = require("../models/usuario");
+const{request,response} = require("express");
 
 
 
 exports.home= async(req,res) => {
 
-    // const usuarios = await Usuario.find();
+     const usuarios = await Usuario.find();
 
-     const usuarios = await Usuario.findByIdAndUpdate(id,req.body,{ new:true});
-     const usuarios = await Usuario.findById(id);
-     const usuarios = await Usuario.findByIdAndDelete(id);
-     const usuarios = await Usuario.create(req.body);
 
     if(!usuarios){
      return   res.send({
@@ -17,6 +14,12 @@ exports.home= async(req,res) => {
             mensaje:"no hay usuarios"
         })
     }
+    return res.status(200).send({
+        status: "success",
+        mensaje:"se encontraron los usuarios",
+        usuarios,
+        total:usuarios.length
+    });
 
 };
 exports.enviarhome= async(req,res) => {
@@ -47,16 +50,45 @@ exports.enviarhome= async(req,res) => {
     }
 };
 
-exports.busqueda= (req,res) => {
-    res.send({
-        status: 200,
-        mensaje:"ruta de busqueda"
-    })
+exports.actualizar= async(req=request,res=response) => {
+
+    // const id = req.query.id;
+    // const id  =req.params.id;
+    const{id} = req.params;
+
+
+
+      const usuario = await Usuario.findByIdAndUpdate(id,req.body,{ new:true});
+
+      if(!usuario){
+          return res.status(404).send({
+              status:"error",
+              mensaje:"No se encontro el usuario para actualizarlo"
+          })
+      }
+
+      return res.status(200).send({
+          status:"success",
+          mensaje:"El usuario fue actualizado correctamente",
+          usuario
+      })
+
 };
 
-exports.error= (req,res) => {
-    res.send({
-        status: 200,
-        mensaje:"ruta de error"
-    })
+exports.borrar= async(req,res) => {
+    const{id} = req.params;
+
+  const usuario = await Usuario.findByIdAndDelete(id);
+
+  if(!usuario){
+      return res.status(404).send({
+          status:"error",
+          mensaje:"El usuario ya ha sido eliminado"
+      })
+  }
+
+return res.status(200).send({
+    status:"success",
+    mensaje:"el usuario ha sido eliminado correctamente"
+})
 };

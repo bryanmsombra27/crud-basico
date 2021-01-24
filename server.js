@@ -6,7 +6,8 @@ const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/test",{
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useCreateIndex:true
+    useCreateIndex:true,
+    useFindAndModify:false
 
 }).then(()=>{
     console.log("conexion exitosa a la base de datos");
